@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    
     tools {
         maven "maven"
     }
@@ -10,7 +11,7 @@ pipeline {
                 sh "rm -rf /tmp/folder/* "
             }
         }
-        stage ('Clone Geo Citizen project') {
+        stage ('git clone geocitizen') {
             steps {             
                 git branch: 'main', url: 'https://github.com/mentorchita/Geocit134.git'
             }
@@ -20,7 +21,7 @@ pipeline {
             steps {
                 script {
                     sh '''#!/bin/bash
-                    ### Starint ###
+                    
                     mail="your email"
                     mail_password="your_password"
                     
@@ -61,13 +62,13 @@ pipeline {
             }
         }
 
-        stage('Build Geo Citizen with Maven') {
+        stage('build geocitizen') {
             steps {
                 sh("mvn clean install")
             }
         }
                   
-        stage('Uploading to Nexus') {
+        stage('uploading to Nexus') {
             steps {
                 nexusArtifactUploader artifacts: [
                             [
@@ -77,7 +78,7 @@ pipeline {
                                 type: 'war'
                             ]
                         ], 
-                        credentialsId: 'nexus', 
+                        credentialsId: 'nexus-cred', 
                         groupId: 'com.softserveinc', 
                         nexusUrl: "129.151.202.208:8081", 
                         nexusVersion: 'nexus3', 
