@@ -1,0 +1,38 @@
+---
+# tasks file for deploy_geocitizen_app
+- name: Update apt
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: install JDK-11
+  apt: name=openjdk-11-jdk
+
+- name: Install git
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+
+- name: Create a directory /opt/Tomcat
+  file:
+    path: /opt/Tomcat
+    state: directory
+    mode: '0755'
+
+- name: download tomcat server packages
+  get_url:
+    url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.tar.gz
+    dest: /opt/Tomcat
+
+- name: extract tomcat packages
+  unarchive:
+    src: /opt/Tomcat/apache-tomcat-9.0.62.tar.gz
+    dest: /opt/Tomcat
+    remote_src: yes
+
+- name: start tomcat services
+  shell: nohup /opt/Tomcat/apache-tomcat-9.0.62/bin/startup.sh
+
+- name: install maven
+  apt: name=maven

@@ -6,18 +6,17 @@ resource "aws_instance" "App_Geocitizen" {
     ami = "ami-092cce4a19b438926"
     instance_type = "t3.micro"
     vpc_security_group_ids = [aws_security_group.app_terraform.id]
-    user_data = file("install_ssh.sh")
-    key_name = "Kuvila-Ubuntu-key"
+    key_name = "Geocitizen_key_Stockholm"
     tags = {
         Name = "App"
     }
 }
 
 resource "aws_instance" "DB_Geocitizen" {
-    ami = "ami-013126576e995a769"
+    ami = "ami-08c308b1bb265e927"
     instance_type = "t3.micro"
     vpc_security_group_ids = [aws_security_group.app_terraform.id]
-    key_name = "Kuvila-Ubuntu-key"
+    key_name = "Geocitizen_key_Stockholm"
     tags = {
         Name = "DB"
     }
@@ -94,10 +93,10 @@ resource "aws_security_group" "app_terraform" {
 
 resource "local_file" "public_ip" {
     content = <<EOT
-[App_ip]
+[app]
 ${aws_instance.App_Geocitizen.public_ip}
 
-[DB_ip]
+[db]
 ${aws_instance.DB_Geocitizen.public_ip}
 EOT
     filename = "../ansible/hosts.txt"

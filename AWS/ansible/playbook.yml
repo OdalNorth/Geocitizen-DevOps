@@ -1,0 +1,7 @@
+---
+- name: Install Tomcat Web Server
+  hosts: app
+  become: yes
+
+  roles:
+    - deploy_geocitizen_app
