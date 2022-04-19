@@ -13,7 +13,7 @@ pipeline {
         }
         stage ('git clone geocitizen') {
             steps {             
-                git branch: 'main', url: 'https://github.com/mentorchita/Geocit134.git'
+                git branch: 'main', url: 'https://github.com/OdalNorth/Geo.git'
             }
         }
 
